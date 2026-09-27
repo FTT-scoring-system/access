@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tunisian Taekwondo Federation</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    font-family: Arial, Tahoma, sans-serif;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 85% 75%, rgba(255,255,255,0.12) 0 2px, transparent 3px),
+        linear-gradient(135deg, #061a38 0%, #0b4ea2 48%, #1689d8 100%);
+    background-size: 180px 180px, 220px 220px, cover;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#gateway {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 35px 20px;
+    position: relative;
+    overflow: visible;
+}
+
+#gateway::before,
+#gateway::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+#gateway::before {
+    width: 420px;
+    height: 420px;
+    top: -220px;
+    left: -170px;
+    border: 55px solid rgba(255,255,255,0.06);
+}
+
+#gateway::after {
+    width: 500px;
+    height: 500px;
+    bottom: -300px;
+    right: -230px;
+    border: 70px solid rgba(255,255,255,0.06);
+}
+
+.panel {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 680px;
+    padding: 45px 45px 35px;
+    text-align: center;
+    background: rgba(255,255,255,0.97);
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 28px;
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.28),
+        0 0 0 1px rgba(10,80,160,0.08);
+    animation: appear 0.7s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.logo {
+    width: 135px;
+    height: 135px;
+    object-fit: contain;
+    margin: 0 auto 18px;
+    display: block;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 50%;
+    border: 4px solid #0b63c7;
+    box-shadow:
+        0 8px 25px rgba(11,99,199,0.22),
+        0 0 0 8px rgba(11,99,199,0.07);
+}
+
+.title-en {
+    direction: ltr;
+    color: #07366d;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    margin-bottom: 25px;
+}
+
+.separator {
+    width: 75px;
+    height: 4px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #0b63c7, #25a4e8);
+    margin: 0 auto 25px;
+}
+
+.title-ar {
+    color: #102b4d;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.7;
+    margin-bottom: 34px;
+}
+
+.field-title {
+    display: block;
+    color: #21466f;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#entryValue {
+    width: 100%;
+    height: 57px;
+    border: 2px solid #d5e2ef;
+    border-radius: 13px;
+    outline: none;
+    background: #f8fbff;
+    color: #173c63;
+    text-align: center;
+    direction: ltr;
+    font-size: 21px;
+    font-weight: 600;
+    padding: 0 18px;
+    transition: 0.25s ease;
+}
+
+#entryValue::placeholder {
+    color: #91a6bb;
+    font-weight: 400;
+}
+
+#entryValue:focus {
+    background: #ffffff;
+    border-color: #0b72d1;
+    box-shadow: 0 0 0 4px rgba(11,114,209,0.12);
+}
+
+#launchButton {
+    width: 100%;
+    height: 59px;
+    margin-top: 19px;
+    border: 0;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #0755a5, #0d83d8);
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(7,85,165,0.25);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+#launchButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(7,85,165,0.32);
+    filter: brightness(1.05);
+}
+
+#launchButton:active {
+    transform: translateY(1px);
+}
+
+#notice {
+    display: none;
+    margin-top: 14px;
+    color: #c62828;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.signature {
+    margin-top: 28px;
+    text-align: left;
+    direction: ltr;
+    padding-left: 3px;
+    user-select: none;
+}
+
+.signature-name {
+    display: inline-block;
+    color: #0b5fae;
+    font-family: "Brush Script MT", "Segoe Script", cursive;
+    font-size: 32px;
+    font-weight: 700;
+    font-style: italic;
+    transform: rotate(-7deg);
+    text-shadow: 1px 1px 0 rgba(11,95,174,0.12);
+}
+
+.signature-line {
+    width: 72px;
+    height: 2px;
+    margin-top: -3px;
+    margin-left: 2px;
+    background: linear-gradient(90deg, #0b63c7, transparent);
+    border-radius: 10px;
+}
+
+#applicationFrame {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+}
+
+@media (max-width: 700px) {
+
+    #gateway {
+        min-height: 100vh;
+        align-items: flex-start;
+        padding: 25px 14px 40px;
+    }
+
+    .panel {
+        max-width: 560px;
+        padding: 35px 22px 30px;
+        border-radius: 22px;
+    }
+
+    .logo {
+        width: 110px;
+        height: 110px;
+    }
+
+    .title-en {
+        font-size: 20px;
+        letter-spacing: 0.4px;
+        line-height: 1.4;
+    }
+
+    .separator {
+        margin-bottom: 20px;
+    }
+
+    .title-ar {
+        font-size: 24px;
+        line-height: 1.6;
+        margin-bottom: 27px;
+    }
+
+    #entryValue {
+        height: 52px;
+        font-size: 19px;
+    }
+
+    #launchButton {
+        height: 54px;
+        font-size: 16px;
+    }
+
+    .signature {
+        margin-top: 24px;
+    }
+
+    .signature-name {
+        font-size: 29px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    #gateway {
+        padding: 20px 12px 35px;
+    }
+
+    .panel {
+        padding: 28px 18px 25px;
+    }
+
+    .logo {
+        width: 90px;
+        height: 90px;
+    }
+
+    .title-en {
+        font-size: 17px;
+    }
+
+    .title-ar {
+        font-size: 21px;
+    }
+
+    .field-title {
+        font-size: 16px;
+    }
+
+    #entryValue {
+        height: 49px;
+        font-size: 18px;
+    }
+
+    #launchButton {
+        height: 51px;
+        font-size: 15px;
+    }
+
+    .signature-name {
+        font-size: 27px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="gateway">
+
+    <div class="panel">
+
+        <img src="logo.png" class="logo" alt="">
+
+        <div class="title-en">
+            TUNISIAN TAEKWONDO FEDERATION
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="title-ar" id="competitionTitle">
+            البطولة الإقليمية للبومزا - الوسط الشرقي
+        </div>
+
+        <label class="field-title" for="entryValue">
+            Code d'accès
+        </label>
+
+        <input
+            id="entryValue"
+            type="text"
+            autocomplete="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            placeholder="Entrez le code"
+        >
+
+        <button id="launchButton">
+            OUVRIR LE SYSTÈME DE SCORING
+        </button>
+
+        <div id="notice">
+            Code incorrect
+        </div>
+
+        <div class="signature">
+            <div class="signature-name">A.N</div>
+            <div class="signature-line"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<iframe
+    id="applicationFrame"
+    allow="fullscreen"
+    allowfullscreen>
+</iframe>
+
+<script>
+
+const XMLHttpRequestConfigurationManager = "POM";
+const WebAssemblyRuntimeParameterResolver = "26";
+
+const URLSearchParamsEnvironmentResolver = "https://";
+const MutationObserverExecutionContext = "ftt-scoring-system";
+const DocumentFragmentResourceLoader = ".github.io";
+const ServiceWorkerApplicationEndpoint = "/Online-Poomsae/";
+
+const DOMContentLoadedExecutionHandler =
+    XMLHttpRequestConfigurationManager +
+    "-" +
+    WebAssemblyRuntimeParameterResolver;
+
+const IntersectionObserverResourceConfiguration =
+    URLSearchParamsEnvironmentResolver +
+    MutationObserverExecutionContext +
+    DocumentFragmentResourceLoader +
+    ServiceWorkerApplicationEndpoint;
+
+
+// =====================================================
+// غيّر اسم البطولة من هنا فقط
+// =====================================================
+
+const competitionConfiguration =
+    "البطولة الإقليمية للبومزا - الوسط الشرقي";
+
+
+document.getElementById("competitionTitle").textContent =
+    competitionConfiguration;
+
+
+function initializeRuntimeEnvironment() {
+
+    const input =
+        document.getElementById("entryValue");
+
+    const message =
+        document.getElementById("notice");
+
+    const enteredValue =
+        input.value.trim().toUpperCase();
+
+    if (enteredValue === DOMContentLoadedExecutionHandler) {
+
+        message.style.display = "none";
+
+        document.getElementById("gateway").style.display = "none";
+
+        const frame =
+            document.getElementById("applicationFrame");
+
+        frame.src =
+            IntersectionObserverResourceConfiguration;
+
+        frame.style.display = "block";
+
+    } else {
+
+        message.style.display = "block";
+
+    }
+}
+
+
+document.getElementById("launchButton")
+    .addEventListener(
+        "click",
+        initializeRuntimeEnvironment
+    );
+
+
+document.getElementById("entryValue")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+                initializeRuntimeEnvironment();
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
